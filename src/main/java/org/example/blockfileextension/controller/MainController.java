@@ -20,6 +20,7 @@ public class MainController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("extensions", fileExtensionService.getAllExtensions());
+        model.addAttribute("count", fileExtensionService.countAllExtensions());
         return "index";
     }
 

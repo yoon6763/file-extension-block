@@ -27,6 +27,10 @@ public class FileExtensionService {
         fileExtensionRepository.deleteByExtension(extension);
     }
 
+    public long countAllExtensions() {
+        return fileExtensionRepository.countAll();
+    }
+
     public List<FileExtensionInfoDto> getAllExtensions() {
         return fileExtensionRepository.findAll().stream()
                 .map(FileExtensionInfoDto::from)

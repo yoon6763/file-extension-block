@@ -6,6 +6,7 @@
 
     #customExtensionContainer {
         border: 1px solid black;
+        border-radius: 10px;
         width: 1000px;
         min-height: 100px;
         margin-top: 20px;
@@ -15,6 +16,7 @@
 
     #customExtensionContainer div {
         border: 1px solid black;
+        border-radius: 10px;
         width: auto;
         height: 30px;
         margin: 10px;
@@ -79,19 +81,16 @@
     <button id="addBtn" type="submit">추가</button>
 </form>
 
-<!-- 박스 -->
 <div id="customExtensionContainer">
-    <div th:each="extension : ${extensions}">
-        <span th:text="${extension.getExtension()}"></span>
-        <button type="button" th:onclick="|location.href='@{custom/remove(extension=${extension.getExtension()})}'|">X</button>
+    <span th:text="${count} + '/200'"></span>
+    <div>
+        <div th:each="extension : ${extensions}">
+            <span th:text="${extension.getExtension()}"></span>
+            <button type="button"
+                    th:onclick="|location.href='@{custom/remove(extension=${extension.getExtension()})}'|">X
+            </button>
+        </div>
     </div>
 </div>
-
 </body>
-
-<script>
-    function deleteExtension(extension) {
-        window.location.href = '/custom/remove/' + extension;
-    }
-</script>
 </html>
