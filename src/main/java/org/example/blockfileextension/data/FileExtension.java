@@ -22,4 +22,6 @@ public class FileExtension {
 
     private String extension;
 
+    private boolean isFixedExtension;
+
 }

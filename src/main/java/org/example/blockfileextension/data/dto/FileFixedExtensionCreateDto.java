@@ -6,14 +6,14 @@ import org.example.blockfileextension.data.FileExtension;
 
 @Data
 @AllArgsConstructor
-public class FileExtensionCreateDto {
+public class FileFixedExtensionCreateDto {
 
     private String extension;
 
     public FileExtension toEntity() {
         return FileExtension.builder()
                 .extension(extension)
-                .isFixedExtension(false)
+                .isFixedExtension(true)
                 .build();
     }
 }
