@@ -1,0 +1,119 @@
+<style>
+    .checkbox-container {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    #customExtensionContainer {
+        border: 1px solid black;
+        width: 1000px;
+        min-height: 100px;
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #customExtensionContainer div {
+        border: 1px solid black;
+        width: auto;
+        height: 30px;
+        margin: 10px;
+    }
+</style>
+
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>파일 업로드 시스템</title>
+</head>
+<body>
+
+<h1>파일 확장자 차단</h1>
+
+<p><strong>고정 확장자</strong></p>
+
+<form>
+    <div class="checkbox-container">
+        <input type="checkbox" id="bat" name="bat">
+        <label for="bat">bat</label>
+    </div>
+    <div class="checkbox-container">
+        <input type="checkbox" id="cmd" name="cmd">
+        <label for="cmd">cmd</label>
+    </div>
+    <div class="checkbox-container">
+        <input type="checkbox" id="com" name="com">
+        <label for="com">com</label>
+    </div>
+    <div class="checkbox-container">
+        <input type="checkbox" id="cpl" name="cpl">
+        <label for="cpl">cpl</label>
+    </div>
+    <div class="checkbox-container">
+        <input type="checkbox" id="exe" name="exe">
+        <label for="exe">exe</label>
+    </div>
+    <div class="checkbox-container">
+        <input type="checkbox" id="scr" name="scr">
+        <label for="scr">scr</label>
+    </div>
+    <div class="checkbox-container">
+        <input type="checkbox" id="js" name="js">
+        <label for="js">js</label>
+    </div>
+
+</form>
+
+<p><strong>커스텀 확장자</strong></p>
+
+<form>
+    <label for="customExtensionInput"></label><input type="text" id="customExtensionInput" name="custom">
+    <button id="addBtn" type="button">+추가</button>
+</form>
+
+<!-- 박스 -->
+<div id="customExtensionContainer"></div>
+
+<!-- JavaScript -->
+<script>
+    const addBtn = document.getElementById('addBtn');
+    const customExtensionInput = document.getElementById('customExtensionInput');
+    const customExtensionContainer = document.getElementById('customExtensionContainer');
+
+    addBtn.addEventListener('click', () => {
+        // 새로운 박스를 생성합니다.
+
+        if (customExtensionInput.value === '') {
+            alert('값을 입력해주세요.');
+            return;
+        }
+
+        const newDiv = document.createElement('div');
+        newDiv.className = 'box';
+        newDiv.textContent = customExtensionInput.value;
+
+        // 'x' 표시를 생성합니다. (이미지)
+        const closeBtn = new Image();
+        closeBtn.src = 'remove.png';
+        closeBtn.style.width = '15px';
+        closeBtn.style.height = '15px';
+
+        // 'x' 표시를 클릭하면 박스를 삭제합니다.
+        closeBtn.addEventListener('click', () => {
+            customExtensionContainer.removeChild(newDiv);
+        });
+
+        // 박스 안에 'x' 표시를 추가합니다.
+        newDiv.appendChild(closeBtn);
+
+        // 박스를 컨테이너에 추가합니다.
+        customExtensionContainer.appendChild(newDiv);
+
+        // 입력 필드를 비웁니다.
+        customExtensionInput.value = '';
+    });
+</script>
+</body>
+</html>
