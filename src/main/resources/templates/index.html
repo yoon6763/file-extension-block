@@ -19,6 +19,11 @@
         height: 30px;
         margin: 10px;
     }
+
+    #customExtensionContainer button {
+        background-color: transparent;
+        border: none;
+    }
 </style>
 
 
@@ -68,52 +73,25 @@
 
 <p><strong>커스텀 확장자</strong></p>
 
-<form>
-    <label for="customExtensionInput"></label><input type="text" id="customExtensionInput" name="custom">
-    <button id="addBtn" type="button">+추가</button>
+<form th:action="@{/custom/add}" method="post">
+    <label for="customExtensionInput"></label><input id="customExtensionInput" type="text" name="customExtension"
+                                                     placeholder="확장자를 입력하세요">
+    <button id="addBtn" type="submit">추가</button>
 </form>
 
 <!-- 박스 -->
-<div id="customExtensionContainer"></div>
+<div id="customExtensionContainer">
+    <div th:each="extension : ${extensions}">
+        <span th:text="${extension.getExtension()}"></span>
+        <button type="button" th:onclick="|location.href='@{custom/remove(extension=${extension.getExtension()})}'|">X</button>
+    </div>
+</div>
 
-<!-- JavaScript -->
-<script>
-    const addBtn = document.getElementById('addBtn');
-    const customExtensionInput = document.getElementById('customExtensionInput');
-    const customExtensionContainer = document.getElementById('customExtensionContainer');
-
-    addBtn.addEventListener('click', () => {
-        // 새로운 박스를 생성합니다.
-
-        if (customExtensionInput.value === '') {
-            alert('값을 입력해주세요.');
-            return;
-        }
-
-        const newDiv = document.createElement('div');
-        newDiv.className = 'box';
-        newDiv.textContent = customExtensionInput.value;
-
-        // 'x' 표시를 생성합니다. (이미지)
-        const closeBtn = new Image();
-        closeBtn.src = 'remove.png';
-        closeBtn.style.width = '15px';
-        closeBtn.style.height = '15px';
-
-        // 'x' 표시를 클릭하면 박스를 삭제합니다.
-        closeBtn.addEventListener('click', () => {
-            customExtensionContainer.removeChild(newDiv);
-        });
-
-        // 박스 안에 'x' 표시를 추가합니다.
-        newDiv.appendChild(closeBtn);
-
-        // 박스를 컨테이너에 추가합니다.
-        customExtensionContainer.appendChild(newDiv);
-
-        // 입력 필드를 비웁니다.
-        customExtensionInput.value = '';
-    });
-</script>
 </body>
+
+<script>
+    function deleteExtension(extension) {
+        window.location.href = '/custom/remove/' + extension;
+    }
+</script>
 </html>
