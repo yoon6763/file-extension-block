@@ -9,6 +9,7 @@ import org.example.blockfileextension.data.dto.FixedExtensionInfoDto;
 import org.example.blockfileextension.exception.ErrorCode;
 import org.example.blockfileextension.exception.FileExtensionException;
 import org.example.blockfileextension.repository.FileExtensionRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +23,21 @@ import java.util.stream.Collectors;
 public class FileExtensionService {
 
     private final FileExtensionRepository fileExtensionRepository;
+    @Value("${extension.max-length}")
+    private int MAX_CUSTOM_EXTENSIONS;
 
     @Transactional
     public void addExtension(String extension) {
         checkEmptyExtension(extension);
         checkDuplicateExtension(extension);
+        checkMaxLength(extension);
         fileExtensionRepository.save(new FileExtensionCreateDto(extension).toEntity());
+    }
+
+    private void checkMaxLength(String extension) {
+        if (extension.length() > MAX_CUSTOM_EXTENSIONS) {
+            throw new FileExtensionException(ErrorCode.MAX_EXTENSION_LENGTH_EXCEEDED);
+        }
     }
 
     private void checkEmptyExtension(String extension) {
