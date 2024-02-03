@@ -6,6 +6,8 @@ import org.example.blockfileextension.data.dto.FileExtensionCreateDto;
 import org.example.blockfileextension.data.dto.FileExtensionInfoDto;
 import org.example.blockfileextension.data.dto.FileFixedExtensionCreateDto;
 import org.example.blockfileextension.data.dto.FixedExtensionInfoDto;
+import org.example.blockfileextension.exception.ErrorCode;
+import org.example.blockfileextension.exception.FileExtensionException;
 import org.example.blockfileextension.repository.FileExtensionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +25,21 @@ public class FileExtensionService {
 
     @Transactional
     public void addExtension(String extension) {
+        checkEmptyExtension(extension);
+        checkDuplicateExtension(extension);
         fileExtensionRepository.save(new FileExtensionCreateDto(extension).toEntity());
+    }
+
+    private void checkEmptyExtension(String extension) {
+        if (extension.isEmpty()) {
+            throw new FileExtensionException(ErrorCode.EMPTY_EXTENSION);
+        }
+    }
+
+    private void checkDuplicateExtension(String extension) {
+        if (fileExtensionRepository.existsByExtension(extension)) {
+            throw new FileExtensionException(ErrorCode.DUPLICATED_EXTENSION);
+        }
     }
 
     @Transactional

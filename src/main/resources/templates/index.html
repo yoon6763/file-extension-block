@@ -60,6 +60,8 @@
     <button id="addBtn" type="submit">추가</button>
 </form>
 
+<div th:if="${error}" th:text="${error}"></div>
+
 <div id="customExtensionContainer">
     <span th:text="${count} + '/200'"></span>
     <div th:each="extension : ${extensions}">
